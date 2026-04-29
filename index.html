@@ -277,7 +277,7 @@
 
         .modal-text {
             line-height: 2;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: rgba(255, 255, 255, 0.92);
             margin: 2rem 0;
             white-space: pre-wrap;
@@ -286,6 +286,28 @@
             padding: 2rem;
             border-radius: 24px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .translation-box {
+            background: rgba(243, 156, 18, 0.15);
+            border-right: 4px solid #f39c12;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border-radius: 16px;
+        }
+
+        .translation-box h4 {
+            color: #f39c12;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .translation-box p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
         }
 
         .modal-actions {
@@ -352,6 +374,10 @@
         <button class="close-modal" id="closeModalBtn"><i class="fas fa-times"></i></button>
         <h2 class="modal-title" id="modalTitle"></h2>
         <div class="modal-text" id="modalText"></div>
+        <div class="translation-box" id="translationBox">
+            <h4><i class="fas fa-language"></i> الترجمة إلى العربية</h4>
+            <p id="translationText"></p>
+        </div>
         <div class="modal-actions">
             <button class="btn-share" id="shareBtn"><i class="fas fa-share-alt"></i> مشاركة الموضوع</button>
         </div>
@@ -360,16 +386,66 @@
 
 <script>
     const mainTopics = [
-        { id: 1, title: "Ülkenizde en meşhur meyve ve sebzeler nelerdir?", content: `Suriye'de çok meyve ve sebze vardır. Toprak iyi, hava güzeldir. Elma, üzüm, kiraz, kayısı ve nar çok vardır. Bu meyveler çok lezzetlidir. Domates, salatalık, patlıcan, kabak ve biber de çok yetişir. İnsanlar bu meyve ve sebzeleri her gün yer. Bu yüzden Suriye'de meyve ve sebze çok önemlidir.` },
-        { id: 2, title: "Sen hangi mevsim seversin? Niçin? Bu mevsimde neler yaparsın?", content: `Merhaba benim adım [ضع اسمك]. En sevdiğim mevsim yazdır. Çünkü hava sıcak ve güneşlidir. Yaz mevsimini çok severim. Yazın denize giderim ve yüzerim. Arkadaşlarımla oynarım ve bisiklete binerim. Ailemle gezerim ve tatil yaparım. Dondurma yerim ve soğuk içecekler içerim. Bu yüzden yaz benim için çok güzel ve eğlenceli bir mevsimdir.` },
-        { id: 3, title: "Şehrinin hava durumu", content: `Merhaba, benim adım [ضع اسمك هنا]. Ben Afrin'de yaşıyorum. Afrin'de hava genellikle güzeldir. Yazın hava sıcak ve güneşlidir. İnsanlar dışarı çıkar, bahçelerde vakit geçirir ve ağaçlardan meyve toplar. Kışın hava soğuk olur ve bazen yağmur yağar. İnsanlar kalın giysiler giyer ve evde vakit geçirir. İlkbahar ve sonbaharda hava ılık olur. Ağaçlar yeşerir ve çiçekler açar. Bu yüzden Afrin'in havasını çok seviyorum.` },
-        { id: 4, title: "Benim şehrimin adı Afrin", content: `Benim şehrimin adı Afrin. Afrin çok güzel ve her zaman yeşil bir şehirdir. Burada kış mevsimi Erzurum gibi çok soğuk geçmez, hava genellikle ılıktır. Şehrimizin her yerinde milyonlarca zeytin ağacı vardır, bu yüzden şehrimin rengi yeşildir. Biz bu mevsimde bahçelerde yürüyüş yaparız ve temiz hava alırız. Eğer Afrin'e gelmek isterseniz, yanınıza hafif bir ceket ve bir şemsiye almanız yeterlidir. Burada lezzetli zeytinleri yemeyi sakın unutmayın.` },
-        { id: 5, title: "Hasta Olmamak İçin Neler Yapmalıyız?", content: `Sağlıklı olmak için kendimize iyi bakmalıyız. Öncelikle, her gün taze meyve ve sebze yemeliyiz. Özellikle kışın portakal ve mandalina yemek bizi hastalıklardan korur. Bol bol su içmek vücudumuz için çok önemlidir. Dışarı çıkarken havaya göre giyinmeliyiz. Hava soğuksa kalın kıyafetler giymeli ve atkı takmalıyız. Ayrıca, ellerimizi sık sık sabunla yıkamalıyız. Temizlik bizi mikroplardan uzak tutar. Son olarak, geceleri erken uyumalı ve vücudumuzu dinlendirmeliyiz. Eğer bunlara dikkat edersek hasta olmayız ve kendimizi çok iyi hissederiz.` },
-        { id: 6, title: "Kişisel temizliğin için neler yapıyorsun?", content: `Sağlıklı olmak için her gün ellerimi sabunla yıkıyorum ve banyo yapıyorum. Ama bazen dikkat etmiyoruz ve hasta oluyoruz. Mesela, dün çok basketbol oynadım ve terledim. Terliyken hemen soğuk su içtim. Sonra arabaya bindim ve camı açtım. Rüzgar çarptı ve çok üşüdüm. Bu yüzden hasta oldum ve eczaneye gidip ilaç aldım. Artık daha dikkatliyim; terliyken soğuk su içmiyorum ve temizliğime dikkat ediyorum.` },
-        { id: 7, title: "Sence sağlığın için en önemli üç şey ne?", content: `Bence en önemli üç şey: temizlik, yemek ve dikkat. Her gün ellerimi yıkıyorum çünkü mikroplardan korkuyorum. Ama geçen gün hata yaptım. Basketbol oynadım ve çok terledim. Terliyken soğuk su içtim ve arabanın camını açtım. Bu yüzden çok üşüdüm ve hasta oldum. Eczaneye gidip ilaç aldım. Artık terliyken soğuk su içmiyorum.` },
-        { id: 8, title: "Arkadaşınla eşleş - Nasıl hissediyorsun?", content: `4. a. Arkadaşıma sordum: "Bugün nasıl hissediyorsun?" O, "Bugün çok mutluyum" dedi. Çünkü dün akşam ailesiyle güzel bir film izlemiş. Ama biraz da heyecanlı çünkü yarın okulda basketbol maçı var.\n\n4. b. Ben bugün biraz üzgünüm. Çünkü geçen gün basketbol oynarken çok terledim ve soğuk su içtim. Bu yüzden hasta oldum. Ama aynı zamanda mutluyum. Çünkü babam bana iyileşmem için eczaneden ilaç aldı. Yarın iyileşip tekrar arkadaşlarımla oynamak istiyorum.` },
-        { id: 9, title: "Sizin ülkenizde hangi özel günler var?", content: `Benim ülkem Suriye'de çok güzel özel günler vardır. En önemli günler Ramazan Bayramı ve Kurban Bayramı'dır. Ayrıca 17 Nisan Bağımsızlık Günü bizim milli bayramımızdır. Biz bu günlerde çok mutlu oluruz. Bayramlarda birbirimize "Bayramınız mübarek olsun" deriz. Diğer özel günlerde ise "Kutlu olsun" veya "Nice mutlu yıllara" deriz.` },
-        { id: 10, title: "Sen ne yapmayı seversin, ne yapmayı sevmezsin?", content: `Ben dışarıda arkadaşlarımla basketbol oynamayı ve kitap okumayı çok severim. Çünkü basketbol oynamak beni çok mutlu ve enerjik hissettirir. Ama balık tutmayı sevmem çünkü çok sıkıcıdır. Ayrıca, terliyken soğuk su içmeyi ve araba camını açmayı hiç sevmem. Çünkü geçen gün bu yüzden hasta oldum. Hasta olduğum zaman kendimi çok üzgün hissediyorum. Sağlıklı kalmak için artık çok dikkatliyim.` }
+        { 
+            id: 1, 
+            title: "Ülkenizde en meşhur meyve ve sebzeler nelerdir?", 
+            content: `Suriye'de çok meyve ve sebze vardır. Toprak iyi, hava güzeldir. Elma, üzüm, kiraz, kayısı ve nar çok vardır. Bu meyveler çok lezzetlidir. Domates, salatalık, patlıcan, kabak ve biber de çok yetişir. İnsanlar bu meyve ve sebzeleri her gün yer. Bu yüzden Suriye'de meyve ve sebze çok önemlidir.`,
+            translation: "ما هي أشهر الفواكه والخضروات في بلدكم؟ يوجد في سوريا الكثير من الفواكه والخضروات؛ فالتربة جيدة والطقس جميل. يتوفر التفاح، والعنب، والكرز، والمشمش، والرمان بكثرة، وهذه الفواكه لذيذة جداً. كما يزرع هناك الكثير من الطماطم، والخيار، والباذنجان، والكوسا، والفلفل. يتناول الناس هذه الفواكه والخضروات يومياً، ولذلك تحظى الفواكه والخضروات بأهمية كبيرة في سوريا."
+        },
+        { 
+            id: 2, 
+            title: "Sen hangi mevsim seversin? Niçin? Bu mevsimde neler yaparsın?", 
+            content: `Merhaba benim adım [ضع اسمك]. En sevdiğim mevsim yazdır. Çünkü hava sıcak ve güneşlidir. Yaz mevsimini çok severim. Yazın denize giderim ve yüzerim. Arkadaşlarımla oynarım ve bisiklete binerim. Ailemle gezerim ve tatil yaparım. Dondurma yerim ve soğuk içecekler içerim. Bu yüzden yaz benim için çok güzel ve eğlenceli bir mevsimdir.`,
+            translation: "أي فصل تحب؟ ولماذا؟ وماذا تفعل في هذا الفصل؟ مرحباً، اسمي [ضع اسمك]. فصلي المفضل هو الصيف؛ لأن الجو يكون حاراً ومشمساً. أحب فصل الصيف كثيراً. في الصيف، أذهب إلى البحر وأسبح. ألعب مع أصدقائي وأركب الدراجة. أتجول مع عائلتي وأقضي عطلتي. آكل المثلجات وأشرب المشروبات الباردة. لهذا السبب، يعتبر الصيف بالنسبة لي فصلاً جميلاً وممتعاً للغاية."
+        },
+        { 
+            id: 3, 
+            title: "Şehrinin hava durumu", 
+            content: `Merhaba, benim adım [ضع اسمك هنا]. Ben Afrin'de yaşıyorum. Afrin'de hava genellikle güzeldir. Yazın hava sıcak ve güneşlidir. İnsanlar dışarı çıkar, bahçelerde vakit geçirir ve ağaçlardan meyve toplar. Kışın hava soğuk olur ve bazen yağmur yağar. İnsanlar kalın giysiler giyer ve evde vakit geçirir. İlkbahar ve sonbaharda hava ılık olur. Ağaçlar yeşerir ve çiçekler açar. Bu yüzden Afrin'in havasını çok seviyorum.`,
+            translation: "مرحباً، اسمي [ضع اسمك هنا]. أنا أعيش في عفرين. الجو في عفرين جميل عادةً؛ ففي الصيف يكون الطقس حاراً ومشمساً، حيث يخرج الناس ويقضون أوقاتهم في البساتين ويجمعون الثمار من الأشجار. أما في الشتاء، فيكون الجو بارداً وتهطل الأمطار أحياناً، لذا يرتدي الناس ملابس سميكة ويقضون أوقاتهم في المنازل. وفي فصلي الربيع والخريف يكون الجو معتدلاً، حيث تخضرُّ الأشجار وتتفتح الأزهار. لكل هذه الأسباب، أنا أحب طقس عفرين كثيراً."
+        },
+        { 
+            id: 4, 
+            title: "Benim şehrimin adı Afrin", 
+            content: `Benim şehrimin adı Afrin. Afrin çok güzel ve her zaman yeşil bir şehirdir. Burada kış mevsimi Erzurum gibi çok soğuk geçmez, hava genellikle ılıktır. Şehrimizin her yerinde milyonlarca zeytin ağacı vardır, bu yüzden şehrimin rengi yeşildir. Biz bu mevsimde bahçelerde yürüyüş yaparız ve temiz hava alırız. Eğer Afrin'e gelmek isterseniz, yanınıza hafif bir ceket ve bir şemsiye almanız yeterlidir. Burada lezzetli zeytinleri yemeyi sakın unutmayın.`,
+            translation: "اسم مدينتي عفرين. عفرين مدينة جميلة جداً وخضراء دائماً. فصل الشتاء هنا لا يمر بارداً جداً كما هو الحال في مدينة 'أرزروم' (Erzurum)، فالجو عادة ما يكون دافئاً. يوجد في كل أنحاء مدينتنا الملايين من أشجار الزيتون، ولهذا السبب فإن لون مدينتي هو الأخضر. نحن في هذا الموسم نتنزه في البساتين ونستنشق الهواء النقي. إذا كنتم ترغبون في المجيء إلى عفرين، فيكفي أن تأخذوا معكم سترة خفيفة ومظلة. ولا تنسوا أبداً تناول الزيتون اللذيذ هنا."
+        },
+        { 
+            id: 5, 
+            title: "Hasta Olmamak İçin Neler Yapmalıyız?", 
+            content: `Sağlıklı olmak için kendimize iyi bakmalıyız. Öncelikle, her gün taze meyve ve sebze yemeliyiz. Özellikle kışın portakal ve mandalina yemek bizi hastalıklardan korur. Bol bol su içmek vücudumuz için çok önemlidir. Dışarı çıkarken havaya göre giyinmeliyiz. Hava soğuksa kalın kıyafetler giymeli ve atkı takmalıyız. Ayrıca, ellerimizi sık sık sabunla yıkamalıyız. Temizlik bizi mikroplardan uzak tutar. Son olarak, geceleri erken uyumalı ve vücudumuzu dinlendirmeliyiz. Eğer bunlara dikkat edersek hasta olmayız ve kendimizi çok iyi hissederiz.`,
+            translation: "ماذا يجب أن نفعل لكي لا نمرض؟ يجب علينا أن نعتني بأنفسنا جيداً لنكون بصحة جيدة. أولاً، يجب أن نتناول الفواكه والخضروات الطازجة كل يوم؛ فتناول البرتقال واليوسفي خاصة في فصل الشتاء يحمينا من الأمراض. كما أن شرب الكثير من الماء مهم جداً لأجسامنا. ويجب علينا ارتداء الملابس المناسبة لحالة الطقس عند الخروج؛ فإذا كان الجو بارداً، يجب ارتداء ملابس سميكة ووضع وشاح. بالإضافة إلى ذلك، يجب أن نغسل أيدينا بالصابون باستمرار، فالنظافة تبعدنا عن الجراثيم. وأخيراً، يجب أن ننام مبكراً في الليل ونريح أجسامنا. إذا انتبهنا لهذه الأمور، فلن نمرض وسنشعر أننا بحالة جيدة جداً."
+        },
+        { 
+            id: 6, 
+            title: "Kişisel temizliğin için neler yapıyorsun?", 
+            content: `Sağlıklı olmak için her gün ellerimi sabunla yıkıyorum ve banyo yapıyorum. Ama bazen dikkat etmiyoruz ve hasta oluyoruz. Mesela, dün çok basketbol oynadım ve terledim. Terliyken hemen soğuk su içtim. Sonra arabaya bindim ve camı açtım. Rüzgar çarptı ve çok üşüdüm. Bu yüzden hasta oldum ve eczaneye gidip ilaç aldım. Artık daha dikkatliyim; terliyken soğuk su içmiyorum ve temizliğime dikkat ediyorum.`,
+            translation: "ماذا تفعل من أجل نظافتك الشخصية؟ من أجل أن أكون بصحة جيدة، أغسل يديَّ بالصابون يومياً وأستحم. ولكن أحياناً لا ننتبه فنمرض؛ فمثلاً، لعبت كرة السلة كثيراً يوم أمس وتعرقّت، وشربت الماء البارد فوراً وأنا متعرق. ثم ركبت السيارة وفتحت النافذة، فضربني الهواء (لفحة هواء) وشعرت ببرد شديد. لهذا السبب مرضتُ وذهبت إلى الصيدلية واشتريت الدواء. أنا الآن أكثر حذراً؛ فلا أشرب الماء البارد وأنا متعرق، وأهتم بنظافتي جيداً."
+        },
+        { 
+            id: 7, 
+            title: "Sence sağlığın için en önemli üç şey ne?", 
+            content: `Bence en önemli üç şey: temizlik, yemek ve dikkat. Her gün ellerimi yıkıyorum çünkü mikroplardan korkuyorum. Ama geçen gün hata yaptım. Basketbol oynadım ve çok terledim. Terliyken soğuk su içtim ve arabanın camını açtım. Bu yüzden çok üşüdüm ve hasta oldum. Eczaneye gidip ilaç aldım. Artık terliyken soğuk su içmiyorum.`,
+            translation: "ما هي أهم ثلاثة أشياء لصحتك برأيك؟ برأيي، أهم ثلاثة أشياء هي: النظافة، والأكل، والحذر. أغسل يديَّ كل يوم لأنني أخاف من الجراثيم. لكنني ارتكبت خطأً في الأيام الماضية؛ حيث لعبت كرة السلة وتعرقّت كثيراً، ثم شربت الماء البارد وأنا متعرق وفتحت نافذة السيارة. لهذا السبب شعرت ببرد شديد ومرضت. ذهبت إلى الصيدلية واشتريت الدواء. الآن، لم أعد أشرب الماء البارد وأنا متعرق."
+        },
+        { 
+            id: 8, 
+            title: "Arkadaşınla eşleş - Nasıl hissediyorsun?", 
+            content: `4. a. Arkadaşıma sordum: "Bugün nasıl hissediyorsun?" O, "Bugün çok mutluyum" dedi. Çünkü dün akşam ailesiyle güzel bir film izlemiş. Ama biraz da heyecanlı çünkü yarın okulda basketbol maçı var.\n\n4. b. Ben bugün biraz üzgünüm. Çünkü geçen gün basketbol oynarken çok terledim ve soğuk su içtim. Bu yüzden hasta oldum. Ama aynı zamanda mutluyum. Çünkü babam bana iyileşmem için eczaneden ilaç aldı. Yarın iyileşip tekrar arkadaşlarımla oynamak istiyorum.`,
+            translation: "تبادل الأدوار مع صديقك - كيف تشعر؟ ٤. أ. سألتُ صديقي: 'كيف تشعر اليوم؟' قال: 'أنا سعيد جداً اليوم'، لأنه شاهد فيلماً جميلاً مع عائلته مساء أمس. لكنه يشعر أيضاً بالقليل من الحماس لأن لديه مباراة كرة سلة في المدرسة غداً. ٤. ب. أنا أشعر بالحزن قليلاً اليوم؛ لأنني تعرقتُ كثيراً أثناء لعب كرة السلة في الأيام الماضية وشربتُ ماءً بارداً، ولهذا السبب مرضتُ. لكنني في نفس الوقت سعيد؛ لأن والدي اشترى لي دواءً من الصيدلية لكي أتحسن. أريد أن أتعافى غداً وألعب مع أصدقائي مرة أخرى."
+        },
+        { 
+            id: 9, 
+            title: "Sizin ülkenizde hangi özel günler var?", 
+            content: `Benim ülkem Suriye'de çok güzel özel günler vardır. En önemli günler Ramazan Bayramı ve Kurban Bayramı'dır. Ayrıca 17 Nisan Bağımsızlık Günü bizim milli bayramımızdır. Biz bu günlerde çok mutlu oluruz. Bayramlarda birbirimize "Bayramınız mübarek olsun" deriz. Diğer özel günlerde ise "Kutlu olsun" veya "Nice mutlu yıllara" deriz.`,
+            translation: "ما هي الأيام الخاصة الموجودة في بلدكم؟ يوجد في بلدي سوريا أيام خاصة جميلة جداً. أهم هذه الأيام هي عيد الفطر وعيد الأضحى. بالإضافة إلى ذلك، فإن يوم ١٧ نيسان هو 'عيد الجلاء' (يوم الاستقلال)، وهو عيدنا الوطني. نحن نكون سعداء جداً في هذه الأيام. في الأعياد نقول لبعضنا البعض 'عيدكم مبارك'، أما في الأيام الخاصة الأخرى فنقول 'مبارك' (Kutlu olsun) أو 'كل عام وأنتم بخير' (Nice mutlu yıllara)."
+        },
+        { 
+            id: 10, 
+            title: "Sen ne yapmayı seversin, ne yapmayı sevmezsin?", 
+            content: `Ben dışarıda arkadaşlarımla basketbol oynamayı ve kitap okumayı çok severim. Çünkü basketbol oynamak beni çok mutlu ve enerjik hissettirir. Ama balık tutmayı sevmem çünkü çok sıkıcıdır. Ayrıca, terliyken soğuk su içmeyi ve araba camını açmayı hiç sevmem. Çünkü geçen gün bu yüzden hasta oldum. Hasta olduğum zaman kendimi çok üzgün hissediyorum. Sağlıklı kalmak için artık çok dikkatliyim.`,
+            translation: "ماذا تحب أن تفعل وماذا لا تحب؟ أنا أحب كثيراً لعب كرة السلة مع أصدقائي في الخارج وقراءة الكتب؛ لأن لعب كرة السلة يجعلني أشعر بالسعادة والنشاط. لكنني لا أحب صيد السمك لأنه ممل جداً. بالإضافة إلى ذلك، لا أحب أبداً شرب الماء البارد أو فتح نافذة السيارة وأنا متعرق؛ لأنني مرضتُ بسبب ذلك في الأيام الماضية. عندما أكون مريضاً، أشعر بالحزن الشديد. أنا الآن حذر جداً من أجل الحفاظ على صحتي."
+        }
     ];
 
     let currentTopic = null;
@@ -443,6 +519,7 @@
         currentTopic = topic;
         document.getElementById('modalTitle').textContent = topic.title;
         document.getElementById('modalText').textContent = topic.content;
+        document.getElementById('translationText').textContent = topic.translation;
         document.getElementById('topicModal').classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -450,7 +527,7 @@
     async function shareTopic(id) {
         const topic = getTopicById(id);
         if (!topic) return;
-        const text = `${topic.title}\n\n${topic.content}`;
+        const text = `${topic.title}\n\n${topic.content}\n\nالترجمة:\n${topic.translation}`;
         if (navigator.share) {
             try { await navigator.share({ title: topic.title, text: text }); } catch(e) {}
         } else {
@@ -460,7 +537,7 @@
             ta.select();
             document.execCommand('copy');
             document.body.removeChild(ta);
-            alert(`📋 تم نسخ "${topic.title}" إلى الحافظة`);
+            alert(`📋 تم نسخ "${topic.title}" مع ترجمته إلى الحافظة`);
         }
     }
 
