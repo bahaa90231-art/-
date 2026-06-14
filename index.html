@@ -3,16 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>مواضيع اللغة التركية - الصف التاسع | الأستاذ شادي رحال</title>
+    <title>مواضيع اللغة التركية - البكلوريا | الأستاذ شادي رحال</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Cairo', sans-serif;
             background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
@@ -22,200 +17,203 @@
             color: #fff;
             font-size: 18px;
         }
-
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
-        .page {
-            display: block;
-            min-height: 100vh;
-        }
-
+        .page { display: none; min-height: 100vh; }
+        .page.active { display: block; }
         .header {
             text-align: center;
-            padding: 2.5rem 1.5rem;
+            padding: 2rem 1.5rem;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #f39c12;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .profile-img:hover { transform: scale(1.05); }
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 800;
             background: linear-gradient(135deg, #fff, #f39c12);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
         }
-
-        .header h1 i {
-            background: none;
-            -webkit-background-clip: unset;
-            background-clip: unset;
-            color: #f39c12;
-            margin-left: 10px;
-        }
-
-        .header .sub {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1rem;
-        }
-
+        .header h1 i { background: none; color: #f39c12; margin-left: 10px; }
+        .header .sub { color: rgba(255, 255, 255, 0.8); font-size: 1rem; }
         .developer {
             display: inline-block;
-            margin-top: 1rem;
-            padding: 0.4rem 1.5rem;
+            margin-top: 0.5rem;
+            padding: 0.3rem 1.2rem;
             background: rgba(0, 0, 0, 0.4);
             border-radius: 50px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
-
-        .developer span {
-            color: #f39c12;
+        .developer span { color: #f39c12; font-weight: bold; }
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .contact-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50px;
+            padding: 0.4rem 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(243, 156, 18, 0.3);
+        }
+        .contact-card i { color: #f39c12; }
+        .btn-website {
+            background: #f39c12;
+            color: #1a1a2e;
+            border: none;
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Cairo', sans-serif;
             font-weight: bold;
         }
-
-        .section {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem 3rem;
+        .btn-website:hover { background: #e67e22; transform: scale(1.02); }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem;
+            flex-wrap: wrap;
         }
-
+        .nav-btn {
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .nav-btn.active { background: #f39c12; color: #1a1a2e; border-color: #f39c12; }
+        .nav-btn:hover { background: #f39c12; color: #1a1a2e; transform: scale(1.02); }
+        .section { max-width: 1400px; margin: 0 auto; padding: 1.5rem 1.5rem 2rem; }
         .section-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             padding-right: 1rem;
-            border-right: 6px solid #f39c12;
+            border-right: 5px solid #f39c12;
             display: inline-block;
         }
-
-        .section-title i {
-            margin-left: 12px;
-            color: #f39c12;
-        }
-
+        .section-title i { margin-left: 10px; color: #f39c12; }
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.8rem;
         }
-
         .card {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(15px);
-            border-radius: 30px;
+            border-radius: 25px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.15);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
-            animation: fadeInUp 0.6s ease backwards;
         }
-
         .card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-8px) scale(1.01);
             border-color: rgba(243, 156, 18, 0.5);
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3);
         }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .card-header {
             background: linear-gradient(135deg, rgba(243, 156, 18, 0.2), rgba(255, 255, 255, 0.05));
-            padding: 1.8rem 1.5rem;
+            padding: 1.5rem 1.5rem;
             position: relative;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .card-header i {
-            font-size: 2.3rem;
+            font-size: 2rem;
             position: absolute;
-            bottom: -20px;
+            bottom: -18px;
             left: 20px;
             background: #f39c12;
             color: #1a1a2e;
-            padding: 12px;
+            padding: 10px;
             border-radius: 50%;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
-
         .card-header h3 {
-            font-size: 1.4rem;
-            margin-right: 65px;
-            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+            margin-right: 60px;
+            margin-bottom: 0.3rem;
             color: #fff;
         }
-
         .card-header .topic-number {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             opacity: 0.7;
-            margin-right: 65px;
+            margin-right: 60px;
         }
-
-        .card-body {
-            padding: 1.8rem 1.5rem 1rem;
-        }
-
+        .card-body { padding: 1.5rem 1.5rem 0.8rem; }
         .card-body p {
             color: rgba(255, 255, 255, 0.85);
-            line-height: 1.7;
-            font-size: 1rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-
         .card-footer {
-            padding: 1rem 1.5rem 1.5rem;
+            padding: 0.8rem 1.5rem 1.2rem;
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 0.5rem;
+            margin-top: 0.3rem;
         }
-
         .btn-icon {
             flex: 1;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 0.8rem;
-            border-radius: 16px;
+            padding: 0.7rem;
+            border-radius: 14px;
             font-family: 'Cairo', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             color: #fff;
             font-weight: 500;
         }
-
-        .btn-icon i {
-            font-size: 1.1rem;
-        }
-
-        .btn-icon:hover {
-            background: #f39c12;
-            border-color: #f39c12;
-            transform: scale(1.03);
-            color: #1a1a2e;
-        }
-
+        .btn-icon:hover { background: #f39c12; border-color: #f39c12; color: #1a1a2e; }
         .modal-page {
             display: none;
             position: fixed;
@@ -227,67 +225,52 @@
             z-index: 2000;
             overflow-y: auto;
         }
-
-        .modal-page.active {
-            display: block;
-        }
-
+        .modal-page.active { display: block; }
         .modal-content {
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             min-height: 100vh;
-            padding: 2.5rem 2rem;
-            max-width: 1000px;
+            padding: 2rem;
+            max-width: 900px;
             margin: 0 auto;
             position: relative;
         }
-
         .close-modal {
             position: fixed;
-            top: 25px;
-            right: 25px;
+            top: 20px;
+            right: 20px;
             background: #e74c3c;
             color: white;
-            width: 55px;
-            height: 55px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.6rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            font-size: 1.4rem;
             transition: all 0.3s;
             z-index: 2001;
             border: none;
         }
-
-        .close-modal:hover {
-            transform: rotate(90deg);
-            background: #c0392b;
-        }
-
+        .close-modal:hover { transform: rotate(90deg); background: #c0392b; }
         .modal-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #f39c12;
             margin-bottom: 1.5rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 4px solid #f39c12;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #f39c12;
             display: inline-block;
         }
-
-        .modal-text {
-            line-height: 2;
+        .turkish-content {
+            line-height: 1.9;
             font-size: 1.1rem;
             color: rgba(255, 255, 255, 0.92);
-            margin: 2rem 0;
+            margin: 1.5rem 0;
             white-space: pre-wrap;
-            word-break: break-word;
             background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 20px;
         }
-
         .translation-box {
             background: rgba(243, 156, 18, 0.15);
             border-right: 4px solid #f39c12;
@@ -295,7 +278,6 @@
             margin-top: 1rem;
             border-radius: 16px;
         }
-
         .translation-box h4 {
             color: #f39c12;
             margin-bottom: 0.8rem;
@@ -304,64 +286,104 @@
             align-items: center;
             gap: 10px;
         }
-
         .translation-box p {
             color: rgba(255, 255, 255, 0.9);
             line-height: 1.8;
         }
-
         .modal-actions {
             display: flex;
-            gap: 1.5rem;
+            gap: 1rem;
             flex-wrap: wrap;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             justify-content: center;
         }
-
         .btn-share {
-            min-width: 200px;
-            padding: 1rem 2rem;
+            min-width: 180px;
+            padding: 0.8rem 1.5rem;
             border: none;
-            border-radius: 60px;
+            border-radius: 50px;
             font-family: 'Cairo', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            transition: all 0.3s;
+            gap: 10px;
             background: #2980b9;
             color: white;
         }
-
-        .btn-share:hover {
-            background: #3498db;
-            transform: scale(1.02);
-            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4);
+        .btn-share:hover { background: #3498db; }
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
         }
-
+        .image-modal.active { display: flex; }
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 15px;
+            border: 3px solid #f39c12;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+        .close-image-modal {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: #e74c3c;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            z-index: 3001;
+            border: none;
+        }
+        .close-image-modal:hover { transform: rotate(90deg); background: #c0392b; }
         @media (max-width: 600px) {
             body { font-size: 16px; }
-            .header h1 { font-size: 1.6rem; }
-            .cards-grid { gap: 1.2rem; grid-template-columns: 1fr; }
-            .modal-title { font-size: 1.5rem; }
-            .modal-text { font-size: 1rem; padding: 1.2rem; }
-            .btn-icon { font-size: 0.85rem; }
-            .section-title { font-size: 1.5rem; }
-            .card-header h3 { font-size: 1.2rem; }
-            .btn-share { min-width: 160px; padding: 0.8rem 1.5rem; font-size: 1rem; }
+            .header h1 { font-size: 1.5rem; }
+            .profile-img { width: 70px; height: 70px; }
+            .cards-grid { gap: 1rem; grid-template-columns: 1fr; }
+            .modal-title { font-size: 1.4rem; }
+            .turkish-content { font-size: 0.95rem; padding: 1rem; }
+            .nav-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
+            .section-title { font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
 
-<div class="page">
+<!-- الصفحة الرئيسية -->
+<div id="page1" class="page active">
     <div class="header">
+        <img src="https://i.ibb.co/1JKyYm7d/IMG-20260604-WA0099.jpg" alt="الأستاذ شادي رحال" class="profile-img" id="profileImg1">
         <h1><i class="fas fa-book-open"></i> مواضيع اللغة التركية</h1>
-        <div class="sub">📖 للصف التاسع - الأستاذ شادي رحال</div>
+        <div class="sub">📖 للأستاذ شادي رحال - البكلوريا</div>
         <div class="developer">💻 المبرمج و المطور: <span>بهاء الحسين</span></div>
+        <div class="contact-info">
+            <div class="contact-card"><i class="fas fa-code"></i> 📱 المبرمج: 0982520358</div>
+            <div class="contact-card"><i class="fas fa-chalkboard-user"></i> 📞 الأستاذ: +306998442073</div>
+            <button class="btn-website" id="goToDeveloperSite"><i class="fas fa-globe"></i> موقع المبرمج</button>
+        </div>
+    </div>
+    <div class="nav-buttons">
+        <button class="nav-btn active" id="goToPage1"><i class="fas fa-star"></i> المواضيع الأساسية</button>
+        <button class="nav-btn" id="goToPage2"><i class="fas fa-exclamation-triangle"></i> مواضيع مهمة</button>
     </div>
     <div class="section">
         <h2 class="section-title"><i class="fas fa-star"></i> المواضيع الأساسية</h2>
@@ -369,11 +391,40 @@
     </div>
 </div>
 
+<!-- الصفحة الثانية -->
+<div id="page2" class="page">
+    <div class="header">
+        <img src="https://i.ibb.co/1JKyYm7d/IMG-20260604-WA0099.jpg" alt="الأستاذ شادي رحال" class="profile-img" id="profileImg2">
+        <h1><i class="fas fa-exclamation-triangle"></i> مواضيع مهمة</h1>
+        <div class="sub">📖 للأستاذ شادي رحال - البكلوريا</div>
+        <div class="developer">💻 المبرمج و المطور: <span>بهاء الحسين</span></div>
+        <div class="contact-info">
+            <div class="contact-card"><i class="fas fa-code"></i> 📱 المبرمج: 0982520358</div>
+            <div class="contact-card"><i class="fas fa-chalkboard-user"></i> 📞 الأستاذ: +306998442073</div>
+            <button class="btn-website" id="goToDeveloperSite2"><i class="fas fa-globe"></i> موقع المبرمج</button>
+        </div>
+    </div>
+    <div class="nav-buttons">
+        <button class="nav-btn" id="goToPage1b"><i class="fas fa-star"></i> المواضيع الأساسية</button>
+        <button class="nav-btn active" id="goToPage2b"><i class="fas fa-exclamation-triangle"></i> مواضيع مهمة</button>
+    </div>
+    <div class="section">
+        <h2 class="section-title"><i class="fas fa-exclamation-triangle"></i> مواضيع مهمة</h2>
+        <div class="cards-grid" id="expectedTopicsGrid"></div>
+    </div>
+</div>
+
+<!-- نافذة تكبير الصورة -->
+<div id="imageModal" class="image-modal">
+    <button class="close-image-modal" id="closeImageModalBtn"><i class="fas fa-times"></i></button>
+    <img src="https://i.ibb.co/1JKyYm7d/IMG-20260604-WA0099.jpg" alt="الأستاذ شادي رحال - مكبر">
+</div>
+
 <div id="topicModal" class="modal-page">
     <div class="modal-content">
         <button class="close-modal" id="closeModalBtn"><i class="fas fa-times"></i></button>
         <h2 class="modal-title" id="modalTitle"></h2>
-        <div class="modal-text" id="modalText"></div>
+        <div class="turkish-content" id="turkishContent"></div>
         <div class="translation-box" id="translationBox">
             <h4><i class="fas fa-language"></i> الترجمة إلى العربية</h4>
             <p id="translationText"></p>
@@ -385,70 +436,27 @@
 </div>
 
 <script>
+    // ========== المواضيع الأساسية (10 مواضيع من كود التاسع) ==========
     const mainTopics = [
-        { 
-            id: 1, 
-            title: "Ülkenizde en meşhur meyve ve sebzeler nelerdir?", 
-            content: `Suriye'de çok meyve ve sebze vardır. Toprak iyi, hava güzeldir. Elma, üzüm, kiraz, kayısı ve nar çok vardır. Bu meyveler çok lezzetlidir. Domates, salatalık, patlıcan, kabak ve biber de çok yetişir. İnsanlar bu meyve ve sebzeleri her gün yer. Bu yüzden Suriye'de meyve ve sebze çok önemlidir.`,
-            translation: "ما هي أشهر الفواكه والخضروات في بلدكم؟ يوجد في سوريا الكثير من الفواكه والخضروات؛ فالتربة جيدة والطقس جميل. يتوفر التفاح، والعنب، والكرز، والمشمش، والرمان بكثرة، وهذه الفواكه لذيذة جداً. كما يزرع هناك الكثير من الطماطم، والخيار، والباذنجان، والكوسا، والفلفل. يتناول الناس هذه الفواكه والخضروات يومياً، ولذلك تحظى الفواكه والخضروات بأهمية كبيرة في سوريا."
-        },
-        { 
-            id: 2, 
-            title: "Sen hangi mevsim seversin? Niçin? Bu mevsimde neler yaparsın?", 
-            content: `Merhaba benim adım [ضع اسمك]. En sevdiğim mevsim yazdır. Çünkü hava sıcak ve güneşlidir. Yaz mevsimini çok severim. Yazın denize giderim ve yüzerim. Arkadaşlarımla oynarım ve bisiklete binerim. Ailemle gezerim ve tatil yaparım. Dondurma yerim ve soğuk içecekler içerim. Bu yüzden yaz benim için çok güzel ve eğlenceli bir mevsimdir.`,
-            translation: "أي فصل تحب؟ ولماذا؟ وماذا تفعل في هذا الفصل؟ مرحباً، اسمي [ضع اسمك]. فصلي المفضل هو الصيف؛ لأن الجو يكون حاراً ومشمساً. أحب فصل الصيف كثيراً. في الصيف، أذهب إلى البحر وأسبح. ألعب مع أصدقائي وأركب الدراجة. أتجول مع عائلتي وأقضي عطلتي. آكل المثلجات وأشرب المشروبات الباردة. لهذا السبب، يعتبر الصيف بالنسبة لي فصلاً جميلاً وممتعاً للغاية."
-        },
-        { 
-            id: 3, 
-            title: "Şehrinin hava durumu", 
-            content: `Merhaba, benim adım [ضع اسمك هنا]. Ben Afrin'de yaşıyorum. Afrin'de hava genellikle güzeldir. Yazın hava sıcak ve güneşlidir. İnsanlar dışarı çıkar, bahçelerde vakit geçirir ve ağaçlardan meyve toplar. Kışın hava soğuk olur ve bazen yağmur yağar. İnsanlar kalın giysiler giyer ve evde vakit geçirir. İlkbahar ve sonbaharda hava ılık olur. Ağaçlar yeşerir ve çiçekler açar. Bu yüzden Afrin'in havasını çok seviyorum.`,
-            translation: "مرحباً، اسمي [ضع اسمك هنا]. أنا أعيش في عفرين. الجو في عفرين جميل عادةً؛ ففي الصيف يكون الطقس حاراً ومشمساً، حيث يخرج الناس ويقضون أوقاتهم في البساتين ويجمعون الثمار من الأشجار. أما في الشتاء، فيكون الجو بارداً وتهطل الأمطار أحياناً، لذا يرتدي الناس ملابس سميكة ويقضون أوقاتهم في المنازل. وفي فصلي الربيع والخريف يكون الجو معتدلاً، حيث تخضرُّ الأشجار وتتفتح الأزهار. لكل هذه الأسباب، أنا أحب طقس عفرين كثيراً."
-        },
-        { 
-            id: 4, 
-            title: "Benim şehrimin adı Afrin", 
-            content: `Benim şehrimin adı Afrin. Afrin çok güzel ve her zaman yeşil bir şehirdir. Burada kış mevsimi Erzurum gibi çok soğuk geçmez, hava genellikle ılıktır. Şehrimizin her yerinde milyonlarca zeytin ağacı vardır, bu yüzden şehrimin rengi yeşildir. Biz bu mevsimde bahçelerde yürüyüş yaparız ve temiz hava alırız. Eğer Afrin'e gelmek isterseniz, yanınıza hafif bir ceket ve bir şemsiye almanız yeterlidir. Burada lezzetli zeytinleri yemeyi sakın unutmayın.`,
-            translation: "اسم مدينتي عفرين. عفرين مدينة جميلة جداً وخضراء دائماً. فصل الشتاء هنا لا يمر بارداً جداً كما هو الحال في مدينة 'أرزروم' (Erzurum)، فالجو عادة ما يكون دافئاً. يوجد في كل أنحاء مدينتنا الملايين من أشجار الزيتون، ولهذا السبب فإن لون مدينتي هو الأخضر. نحن في هذا الموسم نتنزه في البساتين ونستنشق الهواء النقي. إذا كنتم ترغبون في المجيء إلى عفرين، فيكفي أن تأخذوا معكم سترة خفيفة ومظلة. ولا تنسوا أبداً تناول الزيتون اللذيذ هنا."
-        },
-        { 
-            id: 5, 
-            title: "Hasta Olmamak İçin Neler Yapmalıyız?", 
-            content: `Sağlıklı olmak için kendimize iyi bakmalıyız. Öncelikle, her gün taze meyve ve sebze yemeliyiz. Özellikle kışın portakal ve mandalina yemek bizi hastalıklardan korur. Bol bol su içmek vücudumuz için çok önemlidir. Dışarı çıkarken havaya göre giyinmeliyiz. Hava soğuksa kalın kıyafetler giymeli ve atkı takmalıyız. Ayrıca, ellerimizi sık sık sabunla yıkamalıyız. Temizlik bizi mikroplardan uzak tutar. Son olarak, geceleri erken uyumalı ve vücudumuzu dinlendirmeliyiz. Eğer bunlara dikkat edersek hasta olmayız ve kendimizi çok iyi hissederiz.`,
-            translation: "ماذا يجب أن نفعل لكي لا نمرض؟ يجب علينا أن نعتني بأنفسنا جيداً لنكون بصحة جيدة. أولاً، يجب أن نتناول الفواكه والخضروات الطازجة كل يوم؛ فتناول البرتقال واليوسفي خاصة في فصل الشتاء يحمينا من الأمراض. كما أن شرب الكثير من الماء مهم جداً لأجسامنا. ويجب علينا ارتداء الملابس المناسبة لحالة الطقس عند الخروج؛ فإذا كان الجو بارداً، يجب ارتداء ملابس سميكة ووضع وشاح. بالإضافة إلى ذلك، يجب أن نغسل أيدينا بالصابون باستمرار، فالنظافة تبعدنا عن الجراثيم. وأخيراً، يجب أن ننام مبكراً في الليل ونريح أجسامنا. إذا انتبهنا لهذه الأمور، فلن نمرض وسنشعر أننا بحالة جيدة جداً."
-        },
-        { 
-            id: 6, 
-            title: "Kişisel temizliğin için neler yapıyorsun?", 
-            content: `Sağlıklı olmak için her gün ellerimi sabunla yıkıyorum ve banyo yapıyorum. Ama bazen dikkat etmiyoruz ve hasta oluyoruz. Mesela, dün çok basketbol oynadım ve terledim. Terliyken hemen soğuk su içtim. Sonra arabaya bindim ve camı açtım. Rüzgar çarptı ve çok üşüdüm. Bu yüzden hasta oldum ve eczaneye gidip ilaç aldım. Artık daha dikkatliyim; terliyken soğuk su içmiyorum ve temizliğime dikkat ediyorum.`,
-            translation: "ماذا تفعل من أجل نظافتك الشخصية؟ من أجل أن أكون بصحة جيدة، أغسل يديَّ بالصابون يومياً وأستحم. ولكن أحياناً لا ننتبه فنمرض؛ فمثلاً، لعبت كرة السلة كثيراً يوم أمس وتعرقّت، وشربت الماء البارد فوراً وأنا متعرق. ثم ركبت السيارة وفتحت النافذة، فضربني الهواء (لفحة هواء) وشعرت ببرد شديد. لهذا السبب مرضتُ وذهبت إلى الصيدلية واشتريت الدواء. أنا الآن أكثر حذراً؛ فلا أشرب الماء البارد وأنا متعرق، وأهتم بنظافتي جيداً."
-        },
-        { 
-            id: 7, 
-            title: "Sence sağlığın için en önemli üç şey ne?", 
-            content: `Bence en önemli üç şey: temizlik, yemek ve dikkat. Her gün ellerimi yıkıyorum çünkü mikroplardan korkuyorum. Ama geçen gün hata yaptım. Basketbol oynadım ve çok terledim. Terliyken soğuk su içtim ve arabanın camını açtım. Bu yüzden çok üşüdüm ve hasta oldum. Eczaneye gidip ilaç aldım. Artık terliyken soğuk su içmiyorum.`,
-            translation: "ما هي أهم ثلاثة أشياء لصحتك برأيك؟ برأيي، أهم ثلاثة أشياء هي: النظافة، والأكل، والحذر. أغسل يديَّ كل يوم لأنني أخاف من الجراثيم. لكنني ارتكبت خطأً في الأيام الماضية؛ حيث لعبت كرة السلة وتعرقّت كثيراً، ثم شربت الماء البارد وأنا متعرق وفتحت نافذة السيارة. لهذا السبب شعرت ببرد شديد ومرضت. ذهبت إلى الصيدلية واشتريت الدواء. الآن، لم أعد أشرب الماء البارد وأنا متعرق."
-        },
-        { 
-            id: 8, 
-            title: "Arkadaşınla eşleş - Nasıl hissediyorsun?", 
-            content: `4. a. Arkadaşıma sordum: "Bugün nasıl hissediyorsun?" O, "Bugün çok mutluyum" dedi. Çünkü dün akşam ailesiyle güzel bir film izlemiş. Ama biraz da heyecanlı çünkü yarın okulda basketbol maçı var.\n\n4. b. Ben bugün biraz üzgünüm. Çünkü geçen gün basketbol oynarken çok terledim ve soğuk su içtim. Bu yüzden hasta oldum. Ama aynı zamanda mutluyum. Çünkü babam bana iyileşmem için eczaneden ilaç aldı. Yarın iyileşip tekrar arkadaşlarımla oynamak istiyorum.`,
-            translation: "تبادل الأدوار مع صديقك - كيف تشعر؟ ٤. أ. سألتُ صديقي: 'كيف تشعر اليوم؟' قال: 'أنا سعيد جداً اليوم'، لأنه شاهد فيلماً جميلاً مع عائلته مساء أمس. لكنه يشعر أيضاً بالقليل من الحماس لأن لديه مباراة كرة سلة في المدرسة غداً. ٤. ب. أنا أشعر بالحزن قليلاً اليوم؛ لأنني تعرقتُ كثيراً أثناء لعب كرة السلة في الأيام الماضية وشربتُ ماءً بارداً، ولهذا السبب مرضتُ. لكنني في نفس الوقت سعيد؛ لأن والدي اشترى لي دواءً من الصيدلية لكي أتحسن. أريد أن أتعافى غداً وألعب مع أصدقائي مرة أخرى."
-        },
-        { 
-            id: 9, 
-            title: "Sizin ülkenizde hangi özel günler var?", 
-            content: `Benim ülkem Suriye'de çok güzel özel günler vardır. En önemli günler Ramazan Bayramı ve Kurban Bayramı'dır. Ayrıca 17 Nisan Bağımsızlık Günü bizim milli bayramımızdır. Biz bu günlerde çok mutlu oluruz. Bayramlarda birbirimize "Bayramınız mübarek olsun" deriz. Diğer özel günlerde ise "Kutlu olsun" veya "Nice mutlu yıllara" deriz.`,
-            translation: "ما هي الأيام الخاصة الموجودة في بلدكم؟ يوجد في بلدي سوريا أيام خاصة جميلة جداً. أهم هذه الأيام هي عيد الفطر وعيد الأضحى. بالإضافة إلى ذلك، فإن يوم ١٧ نيسان هو 'عيد الجلاء' (يوم الاستقلال)، وهو عيدنا الوطني. نحن نكون سعداء جداً في هذه الأيام. في الأعياد نقول لبعضنا البعض 'عيدكم مبارك'، أما في الأيام الخاصة الأخرى فنقول 'مبارك' (Kutlu olsun) أو 'كل عام وأنتم بخير' (Nice mutlu yıllara)."
-        },
-        { 
-            id: 10, 
-            title: "Sen ne yapmayı seversin, ne yapmayı sevmezsin?", 
-            content: `Ben dışarıda arkadaşlarımla basketbol oynamayı ve kitap okumayı çok severim. Çünkü basketbol oynamak beni çok mutlu ve enerjik hissettirir. Ama balık tutmayı sevmem çünkü çok sıkıcıdır. Ayrıca, terliyken soğuk su içmeyi ve araba camını açmayı hiç sevmem. Çünkü geçen gün bu yüzden hasta oldum. Hasta olduğum zaman kendimi çok üzgün hissediyorum. Sağlıklı kalmak için artık çok dikkatliyim.`,
-            translation: "ماذا تحب أن تفعل وماذا لا تحب؟ أنا أحب كثيراً لعب كرة السلة مع أصدقائي في الخارج وقراءة الكتب؛ لأن لعب كرة السلة يجعلني أشعر بالسعادة والنشاط. لكنني لا أحب صيد السمك لأنه ممل جداً. بالإضافة إلى ذلك، لا أحب أبداً شرب الماء البارد أو فتح نافذة السيارة وأنا متعرق؛ لأنني مرضتُ بسبب ذلك في الأيام الماضية. عندما أكون مريضاً، أشعر بالحزن الشديد. أنا الآن حذر جداً من أجل الحفاظ على صحتي."
-        }
+        { id: 1, title: "Ülkenizde en meşhur meyve ve sebzeler nelerdir?", turkish: `Suriye'de çok meyve ve sebze vardır. Toprak iyi, hava güzeldir. Elma, üzüm, kiraz, kayısı ve nar çok vardır. Bu meyveler çok lezzetlidir. Domates, salatalık, patlıcan, kabak ve biber de çok yetişir. İnsanlar bu meyve ve sebzeleri her gün yer. Bu yüzden Suriye'de meyve ve sebze çok önemlidir.`, arabic: "ما هي أشهر الفواكه والخضروات في بلدكم؟ يوجد في سوريا الكثير من الفواكه والخضروات؛ فالتربة جيدة والطقس جميل. يتوفر التفاح، والعنب، والكرز، والمشمش، والرمان بكثرة، وهذه الفواكه لذيذة جداً. كما يزرع هناك الكثير من الطماطم، والخيار، والباذنجان، والكوسا، والفلفل. يتناول الناس هذه الفواكه والخضروات يومياً، ولذلك تحظى الفواكه والخضروات بأهمية كبيرة في سوريا." },
+        { id: 2, title: "Sen hangi mevsim seversin? Niçin? Bu mevsimde neler yaparsın?", turkish: `Merhaba benim adım [ضع اسمك]. En sevdiğim mevsim yazdır. Çünkü hava sıcak ve güneşlidir. Yaz mevsimini çok severim. Yazın denize giderim ve yüzerim. Arkadaşlarımla oynarım ve bisiklete binerim. Ailemle gezerim ve tatil yaparım. Dondurma yerim ve soğuk içecekler içerim. Bu yüzden yaz benim için çok güzel ve eğlenceli bir mevsimdir.`, arabic: "أي فصل تحب؟ ولماذا؟ وماذا تفعل في هذا الفصل؟ مرحباً، اسمي [ضع اسمك]. فصلي المفضل هو الصيف؛ لأن الجو يكون حاراً ومشمساً. أحب فصل الصيف كثيراً. في الصيف، أذهب إلى البحر وأسبح. ألعب مع أصدقائي وأركب الدراجة. أتجول مع عائلتي وأقضي عطلتي. آكل المثلجات وأشرب المشروبات الباردة. لهذا السبب، يعتبر الصيف بالنسبة لي فصلاً جميلاً وممتعاً للغاية." },
+        { id: 3, title: "Şehrinin hava durumu", turkish: `Merhaba, benim adım [ضع اسمك هنا]. Ben Afrin'de yaşıyorum. Afrin'de hava genellikle güzeldir. Yazın hava sıcak ve güneşlidir. İnsanlar dışarı çıkar, bahçelerde vakit geçirir ve ağaçlardan meyve toplar. Kışın hava soğuk olur ve bazen yağmur yağar. İnsanlar kalın giysiler giyer ve evde vakit geçirir. İlkbahar ve sonbaharda hava ılık olur. Ağaçlar yeşerir ve çiçekler açar. Bu yüzden Afrin'in havasını çok seviyorum.`, arabic: "مرحباً، اسمي [ضع اسمك هنا]. أنا أعيش في عفرين. الجو في عفرين جميل عادةً؛ ففي الصيف يكون الطقس حاراً ومشمساً، حيث يخرج الناس ويقضون أوقاتهم في البساتين ويجمعون الثمار من الأشجار. أما في الشتاء، فيكون الجو بارداً وتهطل الأمطار أحياناً، لذا يرتدي الناس ملابس سميكة ويقضون أوقاتهم في المنازل. وفي فصلي الربيع والخريف يكون الجو معتدلاً، حيث تخضرُّ الأشجار وتتفتح الأزهار. لكل هذه الأسباب، أنا أحب طقس عفرين كثيراً." },
+        { id: 4, title: "Benim şehrimin adı Afrin", turkish: `Benim şehrimin adı Afrin. Afrin çok güzel ve her zaman yeşil bir şehirdir. Burada kış mevsimi Erzurum gibi çok soğuk geçmez, hava genellikle ılıktır. Şehrimizin her yerinde milyonlarca zeytin ağacı vardır, bu yüzden şehrimin rengi yeşildir. Biz bu mevsimde bahçelerde yürüyüş yaparız ve temiz hava alırız. Eğer Afrin'e gelmek isterseniz, yanınıza hafif bir ceket ve bir şemsiye almanız yeterlidir. Burada lezzetli zeytinleri yemeyi sakın unutmayın.`, arabic: "اسم مدينتي عفرين. عفرين مدينة جميلة جداً وخضراء دائماً. فصل الشتاء هنا لا يمر بارداً جداً كما هو الحال في مدينة 'أرزروم' (Erzurum)، فالجو عادة ما يكون دافئاً. يوجد في كل أنحاء مدينتنا الملايين من أشجار الزيتون، ولهذا السبب فإن لون مدينتي هو الأخضر. نحن في هذا الموسم نتنزه في البساتين ونستنشق الهواء النقي. إذا كنتم ترغبون في المجيء إلى عفرين، فيكفي أن تأخذوا معكم سترة خفيفة ومظلة. ولا تنسوا أبداً تناول الزيتون اللذيذ هنا." },
+        { id: 5, title: "Hasta Olmamak İçin Neler Yapmalıyız?", turkish: `Sağlıklı olmak için kendimize iyi bakmalıyız. Öncelikle, her gün taze meyve ve sebze yemeliyiz. Özellikle kışın portakal ve mandalina yemek bizi hastalıklardan korur. Bol bol su içmek vücudumuz için çok önemlidir. Dışarı çıkarken havaya göre giyinmeliyiz. Hava soğuksa kalın kıyafetler giymeli ve atkı takmalıyız. Ayrıca, ellerimizi sık sık sabunla yıkamalıyız. Temizlik bizi mikroplardan uzak tutar. Son olarak, geceleri erken uyumalı ve vücudumuzu dinlendirmeliyiz. Eğer bunlara dikkat edersek hasta olmayız ve kendimizi çok iyi hissederiz.`, arabic: "ماذا يجب أن نفعل لكي لا نمرض؟ يجب علينا أن نعتني بأنفسنا جيداً لنكون بصحة جيدة. أولاً، يجب أن نتناول الفواكه والخضروات الطازجة كل يوم؛ فتناول البرتقال واليوسفي خاصة في فصل الشتاء يحمينا من الأمراض. كما أن شرب الكثير من الماء مهم جداً لأجسامنا. ويجب علينا ارتداء الملابس المناسبة لحالة الطقس عند الخروج؛ فإذا كان الجو بارداً، يجب ارتداء ملابس سميكة ووضع وشاح. بالإضافة إلى ذلك، يجب أن نغسل أيدينا بالصابون باستمرار، فالنظافة تبعدنا عن الجراثيم. وأخيراً، يجب أن ننام مبكراً في الليل ونريح أجسامنا. إذا انتبهنا لهذه الأمور، فلن نمرض وسنشعر أننا بحالة جيدة جداً." },
+        { id: 6, title: "Kişisel temizliğin için neler yapıyorsun?", turkish: `Sağlıklı olmak için her gün ellerimi sabunla yıkıyorum ve banyo yapıyorum. Ama bazen dikkat etmiyoruz ve hasta oluyoruz. Mesela, dün çok basketbol oynadım ve terledim. Terliyken hemen soğuk su içtim. Sonra arabaya bindim ve camı açtım. Rüzgar çarptı ve çok üşüdüm. Bu yüzden hasta oldum ve eczaneye gidip ilaç aldım. Artık daha dikkatliyim; terliyken soğuk su içmiyorum ve temizliğime dikkat ediyorum.`, arabic: "ماذا تفعل من أجل نظافتك الشخصية؟ من أجل أن أكون بصحة جيدة، أغسل يديَّ بالصابون يومياً وأستحم. ولكن أحياناً لا ننتبه فنمرض؛ فمثلاً، لعبت كرة السلة كثيراً يوم أمس وتعرقّت، وشربت الماء البارد فوراً وأنا متعرق. ثم ركبت السيارة وفتحت النافذة، فضربني الهواء (لفحة هواء) وشعرت ببرد شديد. لهذا السبب مرضتُ وذهبت إلى الصيدلية واشتريت الدواء. أنا الآن أكثر حذراً؛ فلا أشرب الماء البارد وأنا متعرق، وأهتم بنظافتي جيداً." },
+        { id: 7, title: "Sence sağlığın için en önemli üç şey ne?", turkish: `Bence en önemli üç şey: temizlik, yemek ve dikkat. Her gün ellerimi yıkıyorum çünkü mikroplardan korkuyorum. Ama geçen gün hata yaptım. Basketbol oynadım ve çok terledim. Terliyken soğuk su içtim ve arabanın camını açtım. Bu yüzden çok üşüdüm ve hasta oldum. Eczaneye gidip ilaç aldım. Artık terliyken soğuk su içmiyorum.`, arabic: "ما هي أهم ثلاثة أشياء لصحتك برأيك؟ برأيي، أهم ثلاثة أشياء هي: النظافة، والأكل، والحذر. أغسل يديَّ كل يوم لأنني أخاف من الجراثيم. لكنني ارتكبت خطأً في الأيام الماضية؛ حيث لعبت كرة السلة وتعرقّت كثيراً، ثم شربت الماء البارد وأنا متعرق وفتحت نافذة السيارة. لهذا السبب شعرت ببرد شديد ومرضت. ذهبت إلى الصيدلية واشتريت الدواء. الآن، لم أعد أشرب الماء البارد وأنا متعرق." },
+        { id: 8, title: "Arkadaşınla eşleş - Nasıl hissediyorsun?", turkish: `4. a. Arkadaşıma sordum: "Bugün nasıl hissediyorsun?" O, "Bugün çok mutluyum" dedi. Çünkü dün akşam ailesiyle güzel bir film izlemiş. Ama biraz da heyecanlı çünkü yarın okulda basketbol maçı var.\n\n4. b. Ben bugün biraz üzgünüm. Çünkü geçen gün basketbol oynarken çok terledim ve soğuk su içtim. Bu yüzden hasta oldum. Ama aynı zamanda mutluyum. Çünkü babam bana iyileşmem için eczaneden ilaç aldı. Yarın iyileşip tekrar arkadaşlarımla oynamak istiyorum.`, arabic: "تبادل الأدوار مع صديقك - كيف تشعر؟ ٤. أ. سألتُ صديقي: 'كيف تشعر اليوم؟' قال: 'أنا سعيد جداً اليوم'، لأنه شاهد فيلماً جميلاً مع عائلته مساء أمس. لكنه يشعر أيضاً بالقليل من الحماس لأن لديه مباراة كرة سلة في المدرسة غداً. ٤. ب. أنا أشعر بالحزن قليلاً اليوم؛ لأنني تعرقتُ كثيراً أثناء لعب كرة السلة في الأيام الماضية وشربتُ ماءً بارداً، ولهذا السبب مرضتُ. لكنني في نفس الوقت سعيد؛ لأن والدي اشترى لي دواءً من الصيدلية لكي أتحسن. أريد أن أتعافى غداً وألعب مع أصدقائي مرة أخرى." },
+        { id: 9, title: "Sizin ülkenizde hangi özel günler var?", turkish: `Benim ülkem Suriye'de çok güzel özel günler vardır. En önemli günler Ramazan Bayramı ve Kurban Bayramı'dır. Ayrıca 17 Nisan Bağımsızlık Günü bizim milli bayramımızdır. Biz bu günlerde çok mutlu oluruz. Bayramlarda birbirimize "Bayramınız mübarek olsun" deriz. Diğer özel günlerde ise "Kutlu olsun" veya "Nice mutlu yıllara" deriz.`, arabic: "ما هي الأيام الخاصة الموجودة في بلدكم؟ يوجد في بلدي سوريا أيام خاصة جميلة جداً. أهم هذه الأيام هي عيد الفطر وعيد الأضحى. بالإضافة إلى ذلك، فإن يوم ١٧ نيسان هو 'عيد الجلاء' (يوم الاستقلال)، وهو عيدنا الوطني. نحن نكون سعداء جداً في هذه الأيام. في الأعياد نقول لبعضنا البعض 'عيدكم مبارك'، أما في الأيام الخاصة الأخرى فنقول 'مبارك' (Kutlu olsun) أو 'كل عام وأنتم بخير' (Nice mutlu yıllara)." },
+        { id: 10, title: "Sen ne yapmayı seversin, ne yapmayı sevmezsin?", turkish: `Ben dışarıda arkadaşlarımla basketbol oynamayı ve kitap okumayı çok severim. Çünkü basketbol oynamak beni çok mutlu ve enerjik hissettirir. Ama balık tutmayı sevmem çünkü çok sıkıcıdır. Ayrıca, terliyken soğuk su içmeyi ve araba camını açmayı hiç sevmem. Çünkü geçen gün bu yüzden hasta oldum. Hasta olduğum zaman kendimi çok üzgün hissediyorum. Sağlıklı kalmak için artık çok dikkatliyim.`, arabic: "ماذا تحب أن تفعل وماذا لا تحب؟ أنا أحب كثيراً لعب كرة السلة مع أصدقائي في الخارج وقراءة الكتب؛ لأن لعب كرة السلة يجعلني أشعر بالسعادة والنشاط. لكنني لا أحب صيد السمك لأنه ممل جداً. بالإضافة إلى ذلك، لا أحب أبداً شرب الماء البارد أو فتح نافذة السيارة وأنا متعرق؛ لأنني مرضتُ بسبب ذلك في الأيام الماضية. عندما أكون مريضاً، أشعر بالحزن الشديد. أنا الآن حذر جداً من أجل الحفاظ على صحتي." }
+    ];
+
+    // ========== المواضيع المهمة ==========
+    const expectedTopics = [
+        { id: 1, title: "Kendini Tanıt", turkish: `Merhaba, benim adım Ali. On yaşındayım. İstanbul'da yaşıyorum. Ortaokula gidiyorum. Kitap okumayı ve resim yapmayı severim. En sevdiğim yemek makarna. En sevdiğim renk kırmızı. Ben neşeli ve arkadaş canlısıyım. Ailemle vakit geçirmeyi severim. Hayvanları çok severim.`, arabic: "مرحباً، اسمي علي. عمري عشر سنوات. أعيش في إسطنبول. أدرس في المدرسة الإعدادية. أحب قراءة الكتب ورسم الصور. طعامي المفضل هو المعكرونة. لوني المفضل هو الأحمر. أنا سعيد وأحب أن أكون صديقاً للجميع. أحب قضاء الوقت مع عائلتي. أحب الحيوانات كثيراً." }
     ];
 
     let currentTopic = null;
+    let currentSource = null;
 
     function escapeHtml(text) {
         const div = document.createElement('div');
@@ -456,16 +464,16 @@
         return div.innerHTML;
     }
 
-    function renderCards() {
-        const grid = document.getElementById('mainTopicsGrid');
+    function renderCards(containerId, topicsArray) {
+        const grid = document.getElementById(containerId);
         if (!grid) return;
         grid.innerHTML = '';
-        mainTopics.forEach((topic, index) => {
+        topicsArray.forEach((topic, index) => {
             const card = document.createElement('div');
             card.className = 'card';
             card.style.animationDelay = `${index * 0.05}s`;
             card.setAttribute('data-id', topic.id);
-            let shortContent = topic.content.substring(0, 120) + (topic.content.length > 120 ? '...' : '');
+            let shortContent = (topic.turkish.substring(0, 100)) + (topic.turkish.length > 100 ? '...' : '');
             card.innerHTML = `
                 <div class="card-header">
                     <i class="fas fa-scroll"></i>
@@ -482,7 +490,6 @@
             `;
             grid.appendChild(card);
         });
-        attachEvents();
     }
 
     function attachEvents() {
@@ -510,7 +517,11 @@
     }
 
     function getTopicById(id) {
-        return mainTopics.find(t => t.id === id);
+        if (currentSource === 'main') {
+            return mainTopics.find(t => t.id === id);
+        } else {
+            return expectedTopics.find(t => t.id === id);
+        }
     }
 
     function openTopic(id) {
@@ -518,8 +529,8 @@
         if (!topic) return;
         currentTopic = topic;
         document.getElementById('modalTitle').textContent = topic.title;
-        document.getElementById('modalText').textContent = topic.content;
-        document.getElementById('translationText').textContent = topic.translation;
+        document.getElementById('turkishContent').innerHTML = escapeHtml(topic.turkish).replace(/\n/g, '<br>');
+        document.getElementById('translationText').innerHTML = escapeHtml(topic.arabic).replace(/\n/g, '<br>');
         document.getElementById('topicModal').classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -527,7 +538,7 @@
     async function shareTopic(id) {
         const topic = getTopicById(id);
         if (!topic) return;
-        const text = `${topic.title}\n\n${topic.content}\n\nالترجمة:\n${topic.translation}`;
+        const text = `${topic.title}\n\n📖 النص التركي:\n${topic.turkish}\n\n🇸🇦 الترجمة العربية:\n${topic.arabic}`;
         if (navigator.share) {
             try { await navigator.share({ title: topic.title, text: text }); } catch(e) {}
         } else {
@@ -541,6 +552,45 @@
         }
     }
 
+    function showPage(pageId, source) {
+        document.getElementById('page1').classList.remove('active');
+        document.getElementById('page2').classList.remove('active');
+        document.getElementById(pageId).classList.add('active');
+        currentSource = source;
+        if (source === 'main') {
+            renderCards('mainTopicsGrid', mainTopics);
+        } else {
+            renderCards('expectedTopicsGrid', expectedTopics);
+        }
+        attachEvents();
+    }
+
+    // أزرار التنقل
+    document.getElementById('goToPage1').onclick = () => showPage('page1', 'main');
+    document.getElementById('goToPage1b').onclick = () => showPage('page1', 'main');
+    document.getElementById('goToPage2').onclick = () => showPage('page2', 'expected');
+    document.getElementById('goToPage2b').onclick = () => showPage('page2', 'expected');
+
+    // أزرار موقع المبرمج
+    document.getElementById('goToDeveloperSite').onclick = () => window.open('https://bahaa90231-art.github.io/-09/', '_blank');
+    document.getElementById('goToDeveloperSite2').onclick = () => window.open('https://bahaa90231-art.github.io/-09/', '_blank');
+
+    // تكبير الصورة
+    function openImageModal() {
+        document.getElementById('imageModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeImageModal() {
+        document.getElementById('imageModal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+    document.getElementById('profileImg1').onclick = openImageModal;
+    document.getElementById('profileImg2').onclick = openImageModal;
+    document.getElementById('closeImageModalBtn').onclick = closeImageModal;
+    document.getElementById('imageModal').onclick = (e) => {
+        if (e.target === document.getElementById('imageModal')) closeImageModal();
+    };
+
     document.getElementById('closeModalBtn').onclick = () => {
         document.getElementById('topicModal').classList.remove('active');
         document.body.style.overflow = 'auto';
@@ -553,7 +603,7 @@
     };
     document.getElementById('shareBtn').onclick = () => { if (currentTopic) shareTopic(currentTopic.id); };
 
-    renderCards();
+    showPage('page1', 'main');
 </script>
 </body>
 </html>
