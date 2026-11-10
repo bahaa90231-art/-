@@ -64,7 +64,7 @@ body.light-mode .contact-form textarea:focus,
 body.light-mode .contact-form select:focus { background: #fff; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,.15); }
 body.light-mode footer { background: #f8fafc; border-top: 1px solid var(--border); }
 body.light-mode .mobile-drawer { background: rgba(255,255,255,0.98); }
-body.light-mode .chat-window { background: #fff; border-color: #e2e8f0; }
+body.light-mode .floating-contact-box { background: #fff; border-color: #e2e8f0; }
 
 /* ============ RESET ============ */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -252,37 +252,105 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:20px;positio
 #scroll-top{position:fixed;bottom:20px;left:20px;z-index:900;width:44px;height:44px;border-radius:50%;background:var(--panel);border:1px solid var(--border);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:1.2rem;opacity:0;visibility:hidden;transition:all .3s var(--ease);backdrop-filter:blur(10px);cursor:pointer;box-shadow: 0 4px 15px rgba(0,0,0,0.2)}
 #scroll-top.show{opacity:1;visibility:visible}
 
-/* ============ CHAT WIDGET ============ */
-.chat-toggle-btn {position: fixed;bottom: 20px;right: 20px;z-index: 999;width: 60px;height: 60px;border-radius: 50%;background: var(--gradient);color: #fff;display: flex;align-items: center;justify-content: center;font-size: 1.8rem;box-shadow: 0 10px 25px rgba(99,102,241,0.5);cursor: pointer;transition: transform 0.3s var(--ease);}
-.chat-toggle-btn:hover { transform: scale(1.1); }
-.chat-toggle-btn.active { transform: rotate(90deg); }
+/* ============ FLOATING WIDGET (اقتراح أداة + تواصل اجتماعي) ============ */
+.floating-widget-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
 
-.chat-window {position: fixed;bottom: 90px;right: 20px;width: 350px;max-width: calc(100vw - 40px);height: 500px;max-height: calc(100vh - 120px);background: var(--bg-2);border: 1px solid var(--border-strong);border-radius: 24px;box-shadow: 0 20px 50px rgba(0,0,0,0.5);z-index: 998;display: flex;flex-direction: column;overflow: hidden;opacity: 0;visibility: hidden;transform: translateY(20px) scale(0.95);transition: all 0.3s var(--ease);}
-.chat-window.open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+.floating-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--gradient);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  box-shadow: 0 10px 25px rgba(99,102,241,0.5);
+  cursor: pointer;
+  transition: transform 0.3s var(--ease);
+}
+.floating-btn:hover { transform: scale(1.1); }
+.floating-btn.active { transform: rotate(90deg); }
 
-.chat-header {background: var(--gradient);padding: 16px 20px;color: #fff;display: flex;align-items: center;justify-content: space-between;}
-.chat-header h3 { font-size: 1.1rem; font-weight: 800; margin: 0; }
-.chat-header span { font-size: 0.8rem; opacity: 0.8; }
+/* نافذة اقتراح أداة */
+.idea-window {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  background: var(--bg-2);
+  border: 1px solid var(--border-strong);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.3s var(--ease);
+}
+.idea-window.open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+.idea-window .chat-header { background: var(--gradient); padding: 16px 20px; color: #fff; }
+.idea-window .chat-header h3 { font-size: 1.1rem; font-weight: 800; margin: 0; }
+.idea-form-container { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.idea-form-container input, .idea-form-container textarea { padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: inherit; font-size: 0.9rem; outline: none; }
+.idea-form-container textarea { min-height: 100px; resize: vertical; }
+.idea-form-container button { width: 100%; padding: 14px; border-radius: 12px; background: var(--gradient); color: #fff; font-weight: 800; font-size: 1rem; cursor: pointer; border: none; }
 
-.chat-tabs {display: flex;background: var(--panel);border-bottom: 1px solid var(--border);}
-.chat-tab {flex: 1;padding: 12px;text-align: center;font-weight: 700;font-size: 0.9rem;color: var(--muted);cursor: pointer;transition: all 0.3s;border-bottom: 2px solid transparent;}
-.chat-tab.active {color: var(--primary);border-bottom-color: var(--primary);background: var(--panel-hover);}
+/* زر التواصل الاجتماعي */
+.contact-social-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+}
+.contact-social-btn:hover { background: var(--panel-hover); transform: scale(1.1); border-color: var(--primary); }
 
-.chat-content {flex: 1;padding: 16px;overflow-y: auto;display: flex;flex-direction: column;gap: 12px;}
-
-.chat-input-area {padding: 12px;border-top: 1px solid var(--border);background: var(--panel);display: flex;gap: 8px;}
-.chat-input-area input, .chat-input-area textarea {flex: 1;padding: 10px 16px;border-radius: 20px;border: 1px solid var(--border);background: var(--bg);color: var(--text);outline: none;font-family: inherit;font-size: 0.9rem;resize: none;}
-.chat-input-area button {width: 44px;height: 44px;border-radius: 50%;background: var(--primary);color: #fff;display: flex;align-items: center;justify-content: center;font-size: 1.2rem;transition: all 0.3s;}
-.chat-input-area button:hover { background: var(--primary-hover); }
-
-.chat-form-container { display: none; flex-direction: column; height: 100%; }
-.chat-form-container.active { display: flex; }
-
-/* رسائل الشات */
-.msg-bubble {max-width: 85%; padding: 10px 16px; border-radius: 16px; font-size: 0.9rem; line-height: 1.5; word-wrap: break-word;}
-.msg-user {align-self: flex-end; background: var(--primary); color: #fff; border-bottom-left-radius: 4px;}
-.msg-admin {align-self: flex-start; background: var(--panel-hover); color: var(--text); border-bottom-right-radius: 4px;}
-.msg-name {font-size: 0.7rem; opacity: 0.7; margin-bottom: 4px; display: block;}
+/* نافذة أيقونات التواصل الاجتماعي */
+.social-links-box {
+  position: absolute;
+  bottom: 140px; /* فوق زر التواصل */
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s var(--ease);
+}
+.social-links-box.open { opacity: 1; visibility: visible; transform: translateY(0); }
+.social-links-box .social-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  border: none;
+  background: #fff;
+}
+.social-links-box .social-icon.whatsapp { background: #25D366; color: #fff; }
+.social-links-box .social-icon.instagram { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: #fff; }
+.social-links-box .social-icon.email { background: var(--gradient); color: #fff; }
 
 /* ============ DESKTOP MEDIA QUERY ============ */
 @media(min-width:768px){
@@ -321,7 +389,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:20px;positio
 <nav id="navbar">
   <div class="container nav-inner">
     <div class="logo" id="nav-logo" onclick="showPage('home')">
-      <div class="logo-text" id="nav-logo-text">منصة البهاء للخدمات البرمجية</div>
+      <div class="logo-text" id="nav-logo-text">منصة البهاء</div>
     </div>
     <div class="nav-actions">
       <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="تبديل الوضع">🌙</button>
@@ -344,44 +412,39 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:20px;positio
 
 <button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="العودة للأعلى">↑</button>
 
-<!-- ميزة الشات والاقتراحات -->
-<div class="chat-toggle-btn" id="chat-toggle" onclick="toggleChat()">💬</div>
-<div class="chat-window" id="chat-window">
-  <div class="chat-header">
-    <div>
-      <h3>تواصل مباشر</h3>
-      <span>دردشة / اقتراح أداة</span>
-    </div>
-  </div>
-  <div class="chat-tabs">
-    <div class="chat-tab active" onclick="switchChatTab('chat')">💬 دردشة</div>
-    <div class="chat-tab" onclick="switchChatTab('idea')">💡 اقتراح أداة</div>
-  </div>
+<!-- الأدوات العائمة (اقتراح أداة + تواصل اجتماعي) -->
+<div class="floating-widget-container">
   
-  <!-- نموذج الدردشة -->
-  <div class="chat-form-container active" id="chat-form-chat">
-    <div class="chat-content" id="chat-messages">
-      <!-- سيتم تحميل الرسائل هنا -->
+  <!-- نافذة اقتراح أداة -->
+  <div class="idea-window" id="idea-window">
+    <div class="chat-header">
+      <h3>💡 اقترح أداة تقنية</h3>
     </div>
-    <div class="chat-input-area">
-      <input type="text" id="chat-input-name" placeholder="اسمك" style="max-width:80px; font-size:0.8rem;" required>
-      <input type="text" id="chat-input-msg" placeholder="اكتب رسالتك...">
-      <button onclick="sendChatMessage()">➤</button>
+    <div class="idea-form-container">
+      <div style="text-align:center; color:var(--muted); font-size:0.85rem;">شاركني فكرة أداة برمجية تحتاجها!</div>
+      <input type="text" id="idea-name" placeholder="اسمك (اختياري)">
+      <input type="text" id="idea-title" placeholder="عنوان الفكرة (مثال: أداة لحساب الفواتير)">
+      <textarea id="idea-desc" placeholder="اشرح الفكرة بالتفصيل..."></textarea>
+      <button onclick="sendIdea()">إرسال الاقتراح</button>
     </div>
   </div>
 
-  <!-- نموذج اقتراح أداة -->
-  <div class="chat-form-container" id="chat-form-idea">
-    <div class="chat-content" style="overflow-y:auto;">
-      <div style="text-align:center; color:var(--muted); font-size:0.85rem; margin-bottom:15px;">شاركني فكرة أداة برمجية تحتاجها!</div>
-      
-      <input type="text" id="idea-name" placeholder="اسمك" style="padding:12px; border-radius:12px; border:1px solid var(--border); background:var(--bg); color:var(--text); margin-bottom:10px;">
-      <input type="text" id="idea-title" placeholder="عنوان الفكرة (مثال: أداة لحساب الفواتير)" style="padding:12px; border-radius:12px; border:1px solid var(--border); background:var(--bg); color:var(--text); margin-bottom:10px;">
-      <textarea id="idea-desc" placeholder="اشرح الفكرة بالتفصيل..." style="padding:12px; border-radius:12px; border:1px solid var(--border); background:var(--bg); color:var(--text); margin-bottom:15px; min-height:120px; resize:none; font-family:inherit;"></textarea>
-      
-      <button onclick="sendIdea()" style="width:100%; padding:14px; border-radius:12px; background:var(--gradient); color:#fff; font-weight:800; font-size:1rem; cursor:pointer; box-shadow:0 4px 15px rgba(99,102,241,0.4);">إرسال الاقتراح</button>
-    </div>
+  <!-- أيقونات التواصل الاجتماعي -->
+  <div class="social-links-box" id="social-links-box">
+    <a href="#" id="social-wa" target="_blank" class="social-icon whatsapp" aria-label="واتساب">
+      <svg viewBox="0 0 24 24"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM20.52 3.45A11.92 11.92 0 0012.05 0C5.5 0 .17 5.33.17 11.88c0 2.09.55 4.13 1.59 5.93L0 24l6.34-1.66a11.86 11.86 0 005.71 1.46h.01c6.55 0 11.88-5.33 11.88-11.88 0-3.17-1.24-6.16-3.42-8.47z"/></svg>
+    </a>
+    <a href="#" id="social-ig" target="_blank" class="social-icon instagram" aria-label="إنستغرام">
+      <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.2-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85 0-3.2.01-3.58.07-4.85.15-3.23 1.66-4.77 4.92-4.92 1.27-.06 1.65-.07 4.85-.07zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zM12 16a4 4 0 110-8 4 4 0 010 8zm6.41-10.85a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"/></svg>
+    </a>
+    <a href="#" id="social-email" class="social-icon email" aria-label="البريد الإلكتروني">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+    </a>
   </div>
+
+  <!-- أزرار التحكم العائمة -->
+  <button class="contact-social-btn" onclick="toggleSocialLinks()" title="تواصل معي">📞</button>
+  <button class="floating-btn" id="idea-btn" onclick="toggleIdeaWindow()" title="اقتراح أداة">💡</button>
 </div>
 
 <footer>
@@ -422,7 +485,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:20px;positio
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, onSnapshot, collection, addDoc, serverTimestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, onSnapshot, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA5uOFpkKHTCqLwRnR0Uz9x7TQJeETqK8I",
@@ -462,17 +525,6 @@ window.toggleDrawer = function() {
 let siteData = {};
 let siteServices = [];
 const mainContent = document.getElementById('main-content');
-
-/* ====== إدارة معرف المستخدم (User ID) ====== */
-function getUserId() {
-  let userId = localStorage.getItem('albahaa_chat_userid');
-  if (!userId) {
-    userId = 'user_' + Math.random().toString(36).substr(2, 9);
-    localStorage.setItem('albahaa_chat_userid', userId);
-  }
-  return userId;
-}
-const currentUserId = getUserId();
 
 const ICON_LIBRARY = {
   website: `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`,
@@ -528,9 +580,9 @@ function applyBranding(){
   const navLogoEl = document.getElementById('nav-logo');
   if(navLogoEl){
     if(logoUrl) {
-      navLogoEl.innerHTML = `<img src="${logoUrl}" alt="${name}"><div class="logo-text">منصة ${name} للخدمات البرمجية</div>`;
+      navLogoEl.innerHTML = `<img src="${logoUrl}" alt="${name}"><div class="logo-text">منصة ${name}</div>`;
     } else {
-      navLogoEl.innerHTML = `<div class="logo-text">منصة ${name} للخدمات البرمجية</div>`;
+      navLogoEl.innerHTML = `<div class="logo-text">منصة ${name}</div>`;
     }
   }
 
@@ -547,6 +599,31 @@ function applyBranding(){
   if (siteData.footerDesc) document.getElementById('footer-desc').textContent = siteData.footerDesc;
   if (siteData.copyright) document.getElementById('footer-copyright').innerHTML = siteData.copyright;
   renderSocialIcons();
+  
+  // تحديث روابط الأزرار العائمة
+  const waBtn = document.getElementById('social-wa');
+  if(siteData.contactWhatsapp) {
+    waBtn.href = `https://wa.me/${siteData.contactWhatsapp.replace(/[^0-9]/g,'')}`;
+    waBtn.style.display = 'flex';
+  } else {
+    waBtn.style.display = 'none';
+  }
+
+  const igBtn = document.getElementById('social-ig');
+  if(siteData.socialInstagram) {
+    igBtn.href = siteData.socialInstagram;
+    igBtn.style.display = 'flex';
+  } else {
+    igBtn.style.display = 'none';
+  }
+
+  const emailBtn = document.getElementById('social-email');
+  if(siteData.contactEmail) {
+    emailBtn.href = `mailto:${siteData.contactEmail}`;
+    emailBtn.style.display = 'flex';
+  } else {
+    emailBtn.style.display = 'none';
+  }
 }
 
 function buildSocialIcons(){
@@ -796,7 +873,7 @@ function renderContactPage() {
           <p>أنا هنا للإجابة على كل استفساراتك.</p>
           ${siteData.contactEmail ? `<div class="contact-item"><div class="contact-item-icon">✉️</div><div><h4>البريد الإلكتروني</h4><span>${siteData.contactEmail}</span></div></div>` : ''}
           ${siteData.contactWhatsapp ? `<div class="contact-item"><div class="contact-item-icon">💬</div><div><h4>واتساب</h4><span>+${siteData.contactWhatsapp}</span></div></div>` : ''}
-          ${siteData.contactPhone ? `<div class="contact-item"><div class="contact-item-icon">📞</div><div><h4>الهاتف</h4><span>${siteData.contactPhone}</span></div></div>` : ''}
+          ${siteData.contactPhone ? `<div class="contact-item"><div class="contact-icon">📞</div><div><h4>الهاتف</h4><span>${siteData.contactPhone}</span></div></div>` : ''}
           ${siteData.contactLocation ? `<div class="contact-item"><div class="contact-item-icon">📍</div><div><h4>الموقع</h4><span>${siteData.contactLocation}</span></div></div>` : ''}
           ${renderSocialInline()}
         </div>
@@ -899,96 +976,22 @@ window.addEventListener('scroll', () => {
   }
 }, { passive:true });
 
-/* ============ الشات والاقتراحات (تفاعلي) ============ */
-window.toggleChat = function() {
-  const chatWindow = document.getElementById('chat-window');
-  const btn = document.getElementById('chat-toggle');
-  chatWindow.classList.toggle('open');
+/* ============ أدوات الاقتراح والتواصل العائمة ============ */
+window.toggleIdeaWindow = function() {
+  const ideaWindow = document.getElementById('idea-window');
+  const btn = document.getElementById('idea-btn');
+  ideaWindow.classList.toggle('open');
   btn.classList.toggle('active');
-  if(chatWindow.classList.contains('open')) {
+  if(ideaWindow.classList.contains('open')) {
     btn.innerHTML = '✕';
-    loadChatMessages(); // تحميل الرسائل عند الفتح
   } else {
-    btn.innerHTML = '💬';
+    btn.innerHTML = '💡';
   }
 };
 
-window.switchChatTab = function(tab) {
-  document.querySelectorAll('.chat-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.chat-form-container').forEach(f => f.classList.remove('active'));
-  
-  if (tab === 'chat') {
-    document.querySelectorAll('.chat-tab')[0].classList.add('active');
-    document.getElementById('chat-form-chat').classList.add('active');
-    loadChatMessages();
-  } else {
-    document.querySelectorAll('.chat-tab')[1].classList.add('active');
-    document.getElementById('chat-form-idea').classList.add('active');
-  }
-};
-
-let unsubChat = null;
-function loadChatMessages() {
-  if(unsubChat) unsubChat();
-  const messagesContainer = document.getElementById('chat-messages');
-  messagesContainer.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:0.85rem;">جارٍ التحميل...</div>';
-  
-  const q = query(collection(db, "chat_messages"), where("userId", "==", currentUserId), orderBy("createdAt", "asc"));
-  
-  unsubChat = onSnapshot(q, (snap) => {
-    messagesContainer.innerHTML = '';
-    if(snap.empty) {
-      messagesContainer.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:0.85rem;">مرحباً! كيف يمكنني مساعدتك اليوم؟</div>';
-      return;
-    }
-    
-    snap.forEach(doc => {
-      const msg = doc.data();
-      const msgDiv = document.createElement('div');
-      msgDiv.className = msg.sender === 'admin' ? 'msg-bubble msg-admin' : 'msg-bubble msg-user';
-      
-      if (msg.sender === 'admin') {
-        msgDiv.innerHTML = `<span class="msg-name">الإدارة</span>${esc(msg.message)}`;
-      } else {
-        msgDiv.innerHTML = `<span class="msg-name">${esc(msg.name || 'أنت')}</span>${esc(msg.message)}`;
-      }
-      messagesContainer.appendChild(msgDiv);
-    });
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-  });
-}
-
-window.sendChatMessage = async function() {
-  const nameInput = document.getElementById('chat-input-name');
-  const msgInput = document.getElementById('chat-input-msg');
-  const name = nameInput.value.trim() || 'زائر';
-  const msg = msgInput.value.trim();
-  
-  if(!msg) return;
-  
-  const btn = document.querySelector('#chat-form-chat .chat-input-area button');
-  const originalBtn = btn.innerHTML;
-  btn.disabled = true;
-  btn.innerHTML = '...';
-  
-  try {
-    await addDoc(collection(db, "chat_messages"), {
-      userId: currentUserId,
-      name: name,
-      message: msg,
-      sender: 'user',
-      read: false,
-      createdAt: serverTimestamp()
-    });
-    
-    msgInput.value = '';
-  } catch(err) {
-    console.error(err);
-    alert('حدث خطأ أثناء الإرسال.');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = originalBtn;
-  }
+window.toggleSocialLinks = function() {
+  const box = document.getElementById('social-links-box');
+  box.classList.toggle('open');
 };
 
 window.sendIdea = async function() {
@@ -1001,7 +1004,7 @@ window.sendIdea = async function() {
     return;
   }
   
-  const btn = document.querySelector('#chat-form-idea button');
+  const btn = document.querySelector('.idea-form-container button');
   const originalBtn = btn.innerHTML;
   btn.disabled = true;
   btn.innerHTML = 'جارٍ الإرسال...';
@@ -1018,7 +1021,7 @@ window.sendIdea = async function() {
     alert('✅ تم استلام اقتراحك بنجاح! شكراً لك.');
     document.getElementById('idea-title').value = '';
     document.getElementById('idea-desc').value = '';
-    switchChatTab('chat');
+    toggleIdeaWindow(); // إغلاق النافذة
   } catch(err) {
     console.error(err);
     alert('❌ حدث خطأ أثناء الإرسال.');
@@ -1071,6 +1074,7 @@ function initCanvas(){
 }
 initCanvas();
 
+// إخفاء شاشة التحميل بعد تحميل كل شيء
 setTimeout(() => document.getElementById('preloader').classList.add('done'), 2000);
 </script>
 </body>
