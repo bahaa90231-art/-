@@ -409,7 +409,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:20px;positio
     </div>
     <div class="nav-actions">
       <!-- زر تحميل التطبيق (يظهر فقط إذا تم إضافة رابط في اللوحة) -->
-      <a href="#" id="download-app-btn" class="btn-download-app" target="_blank" rel="noopener">📥 تحميل التطبيق</a>
+      <a href="#" id="download-app-btn" class="btn-download-app" target="_blank" rel="noopener" onclick="trackDownload()">📥 تحميل التطبيق</a>
       
       <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="تبديل الوضع">🌙</button>
       <button class="menu-btn" onclick="toggleDrawer()" aria-label="القائمة">☰</button>
@@ -504,7 +504,9 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:20px;positio
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, onSnapshot, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { 
+  getFirestore, doc, getDoc, setDoc, onSnapshot, collection, addDoc, serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA5uOFpkKHTCqLwRnR0Uz9x7TQJeETqK8I",
@@ -516,6 +518,45 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+/* ====== نظام الإحصائيات ====== */
+function getVisitorId() {
+  let vid = localStorage.getItem('albahaa_visitor_id');
+  if (!vid) {
+    vid = 'visitor_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+    localStorage.setItem('albahaa_visitor_id', vid);
+  }
+  return vid;
+}
+
+async function trackVisit() {
+  const vid = getVisitorId();
+  const visitRef = doc(db, "analytics_visits", vid);
+  const visitSnap = await getDoc(visitRef);
+  
+  if (!visitSnap.exists()) {
+    await setDoc(visitRef, {
+      visitorId: vid,
+      visitedAt: serverTimestamp(),
+      deviceInfo: navigator.userAgent
+    });
+  }
+}
+
+window.trackDownload = async function() {
+  try {
+    const vid = getVisitorId();
+    await addDoc(collection(db, "analytics_downloads"), {
+      visitorId: vid,
+      downloadedAt: serverTimestamp()
+    });
+  } catch(e) {
+    console.error("خطأ في تسجيل التحميل:", e);
+  }
+};
+
+// استدعاء دالة تتبع الزيارة عند تحميل الموقع
+trackVisit();
 
 /* ====== الوضع الليلي والنهاري ====== */
 const themeBtn = document.getElementById('theme-btn');
