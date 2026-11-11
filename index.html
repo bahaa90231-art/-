@@ -116,7 +116,7 @@ nav.scrolled{padding:8px 0;background:var(--nav-bg);backdrop-filter:blur(20px);b
 .menu-btn{width:44px;height:44px;border-radius:50%;background:var(--panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:all .3s;cursor:pointer;color:var(--text)}
 .menu-btn:hover{background:var(--panel-hover);border-color:var(--primary)}
 
-/* زر تحميل التطبيق */
+/* زر تحميل التطبيق - يظهر فقط على الشاشات الكبيرة */
 .btn-download-app {
   background: linear-gradient(135deg, #10b981, #059669);
   color: #fff;
@@ -134,6 +134,9 @@ nav.scrolled{padding:8px 0;background:var(--nav-bg);backdrop-filter:blur(20px);b
 .btn-download-app:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6);
+}
+@media (min-width: 900px) {
+  .btn-download-app { display: inline-flex !important; }
 }
 
 /* ============ القائمة الجانبية (Drawer) ============ */
@@ -386,6 +389,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:20px;positio
   .service-details-page { padding: 180px 0 100px; }
   .service-details-card { padding: 60px 48px; }
   .service-details-actions { flex-direction: row; }
+  .btn-download-app { display: inline-flex !important; }
 }
 @media(min-width:1024px){
   .grid{grid-template-columns:repeat(3,1fr)}
@@ -408,7 +412,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:20px;positio
       <div class="logo-text" id="nav-logo-text">منصة البهاء</div>
     </div>
     <div class="nav-actions">
-      <!-- زر تحميل التطبيق (يظهر فقط إذا تم إضافة رابط في اللوحة) -->
+      <!-- زر تحميل التطبيق (يظهر فقط في الشاشات الكبيرة) -->
       <a href="#" id="download-app-btn" class="btn-download-app" target="_blank" rel="noopener" onclick="trackDownload()">📥 تحميل التطبيق</a>
       
       <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="تبديل الوضع">🌙</button>
@@ -425,6 +429,9 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:20px;positio
   <a onclick="showPage('services');toggleDrawer()" class="drawer-link" data-page="services">🛠️ الخدمات</a>
   <a onclick="showPage('about');toggleDrawer()" class="drawer-link" data-page="about">👤 من أنا</a>
   <a onclick="showPage('contact');toggleDrawer()" class="drawer-link" data-page="contact">📞 اتصل بي</a>
+  
+  <!-- رابط تحميل التطبيق يظهر هنا على الجوال -->
+  <a href="#" id="mobile-download-link" class="drawer-link" target="_blank" rel="noopener" onclick="trackDownload()" style="display: none; background: rgba(16, 185, 129, 0.1); color: #10b981;">📥 تحميل التطبيق</a>
 </div>
 
 <main id="main-content" style="position:relative;z-index:1;"></main>
@@ -505,7 +512,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:20px;positio
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { 
-  getFirestore, doc, getDoc, setDoc, onSnapshot, collection, addDoc, serverTimestamp 
+  getFirestore, doc, getDoc, setDoc, onSnapshot, collection, addDoc, serverTimestamp, query, where
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -555,7 +562,6 @@ window.trackDownload = async function() {
   }
 };
 
-// استدعاء دالة تتبع الزيارة عند تحميل الموقع
 trackVisit();
 
 /* ====== الوضع الليلي والنهاري ====== */
@@ -662,11 +668,14 @@ function applyBranding(){
   
   // تحديث زر تحميل التطبيق
   const downloadBtn = document.getElementById('download-app-btn');
+  const mobileDownloadLink = document.getElementById('mobile-download-link');
+  
   if(siteData.apkUrl) {
-    downloadBtn.style.display = 'inline-flex';
-    downloadBtn.href = siteData.apkUrl;
+    if(downloadBtn) { downloadBtn.style.display = 'inline-flex'; downloadBtn.href = siteData.apkUrl; }
+    if(mobileDownloadLink) { mobileDownloadLink.style.display = 'flex'; mobileDownloadLink.href = siteData.apkUrl; }
   } else {
-    downloadBtn.style.display = 'none';
+    if(downloadBtn) { downloadBtn.style.display = 'none'; }
+    if(mobileDownloadLink) { mobileDownloadLink.style.display = 'none'; }
   }
 
   // تحديث روابط الأزرار العائمة
@@ -975,15 +984,27 @@ function initContactForm(){
     btn.disabled = true;
     btn.innerHTML = 'جارٍ الإرسال...';
     try {
-      await addDoc(collection(db, "messages"), {
+      const vid = getVisitorId();
+      const docRef = await addDoc(collection(db, "messages"), {
         name: form.name.value.trim(),
         email: form.email.value.trim(),
         service: form.service.value,
         message: form.message.value.trim(),
         type: 'contact',
+        userId: vid, // ربط الطلب بمعرف المتصفح
         read: false,
         createdAt: serverTimestamp()
       });
+
+      // إنشاء طلب للمستخدم لمتابعة حالته
+      await addDoc(collection(db, "orders"), {
+        userId: vid,
+        service: form.service.value,
+        orderId: docRef.id,
+        status: 'pending', // قيد المراجعة
+        createdAt: serverTimestamp()
+      });
+
       alert('✅ تم استلام طلبك، سأتواصل معك قريباً!');
       form.reset();
     } catch(err){
@@ -1079,10 +1100,12 @@ window.sendIdea = async function() {
   btn.innerHTML = 'جارٍ الإرسال...';
   
   try {
+    const vid = getVisitorId();
     await addDoc(collection(db, "tech_ideas"), {
       name: name,
       title: title,
       description: desc,
+      userId: vid, // ربط الاقتراح بمعرف المتصفح
       read: false,
       createdAt: serverTimestamp()
     });
